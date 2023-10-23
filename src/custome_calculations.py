@@ -34,6 +34,35 @@ def calculate_opposit_side(alpha, hypothenuse):
     
     return np.sin(np.radians(alpha) ) * hypothenuse
 
+def calculate_vektor_in_circle(radius, alpha):
+    """
+    Calculates the vektor between two points in a circle
+
+    :param radius: The radius of the circle
+    :param alpha: The angle between the two points
+    """
+    if radius <= 0:
+        raise ValueError("The radius of the circle must be greater than zero")
+
+    #covering all cases from 0 to 360 degrees
+    if alpha== 0 or alpha == 360:
+        return radius, 0
+    elif 0 < alpha < 90:
+        return calculate_adjacent_side(alpha, radius), calculate_opposit_side(alpha, radius)
+    elif alpha == 90:
+        return 0, radius
+    elif 90 < alpha < 180:
+        return -calculate_opposit_side(alpha-90, radius), calculate_adjacent_side(alpha-90, radius)
+    elif alpha == 180:
+        return -radius, 0
+    elif 180 < alpha < 270:
+        return -calculate_adjacent_side(alpha-180, radius), -calculate_opposit_side(alpha-180, radius)
+    elif alpha == 270:
+        return 0, -radius
+    elif 270 < alpha < 360:
+        return calculate_opposit_side(alpha-270, radius), -calculate_adjacent_side(alpha-270, radius)
+    else:
+        raise ValueError("The angle must be between 0 and 360 degrees. Current Angel is " + str(alpha))
 
 def calculate_alpha(circle_radius, arc_in_mm):
     """
@@ -49,16 +78,36 @@ def calculate_alpha(circle_radius, arc_in_mm):
     
     return arc_in_mm  * 180 / (np.pi * circle_radius)
 
-
 def generate_2d_function(x, y):
     """
     Generates a 2d function from two arrays
+
+    :param x: x values of the function
+    :param y: y values of the function
     """
     return interp1d(x, y, kind='cubic', fill_value='extrapolate')
 
+def calculate_vektor_to_next_point(steering, odometer_steps_point, odometer_steps_next_point, hall__to_radius_function, ODOMETER_TO_MM_FACTOR):
+    """
+    Calculates the vektor to the next messurment of the KOW
 
-def calculate_vektor_kow():
+    :param steering: The voltage induced by the hall sensor
+    :param odometer_steps_point: The odometer steps of the current point
+    :param odometer_steps_next_point: The odometer steps of the next point
+    :param hall__to_radius_function: A function which maps steering to thr radius of the rail
+    :param ODOMETER_TO_MM_FACTOR: A factor which maps the odometer steps to mm
     """
-    Calculates the vektor between two points
-    """
-    return 0
+    radius = hall__to_radius_function(steering)
+    radius = round(float(radius), 2)
+    delta_steps = odometer_steps_next_point - odometer_steps_point
+
+    if(radius == 0):
+        return 0, delta_steps * ODOMETER_TO_MM_FACTOR
+    elif(radius < 0):
+        angle_alpha = calculate_alpha(-radius, delta_steps * ODOMETER_TO_MM_FACTOR)
+        x, y = calculate_vektor_in_circle(-radius, angle_alpha)
+        return -x, y
+    else:
+        angle_alpha = calculate_alpha(radius, delta_steps * ODOMETER_TO_MM_FACTOR)
+        x, y = calculate_vektor_in_circle(radius, angle_alpha)
+        return x, y
