@@ -46,21 +46,21 @@ def calculate_vektor_in_circle(radius, alpha):
 
     #covering all cases from 0 to 360 degrees
     if alpha== 0 or alpha == 360:
-        return radius, 0
+        return 0, 0
     elif 0 < alpha < 90:
-        return calculate_adjacent_side(alpha, radius), calculate_opposit_side(alpha, radius)
+        return calculate_adjacent_side(alpha, radius)-radius, calculate_opposit_side(alpha, radius)
     elif alpha == 90:
-        return 0, radius
+        return -radius, radius
     elif 90 < alpha < 180:
-        return -calculate_opposit_side(alpha-90, radius), calculate_adjacent_side(alpha-90, radius)
+        return -calculate_opposit_side(alpha-90, radius)-radius, calculate_adjacent_side(alpha-90, radius)
     elif alpha == 180:
-        return -radius, 0
+        return -2*radius, 0
     elif 180 < alpha < 270:
-        return -calculate_adjacent_side(alpha-180, radius), -calculate_opposit_side(alpha-180, radius)
+        return -calculate_adjacent_side(alpha-180, radius)-radius, -calculate_opposit_side(alpha-180, radius)
     elif alpha == 270:
-        return 0, -radius
+        return -radius, -radius
     elif 270 < alpha < 360:
-        return calculate_opposit_side(alpha-270, radius), -calculate_adjacent_side(alpha-270, radius)
+        return calculate_opposit_side(alpha-270, radius)-radius, -calculate_adjacent_side(alpha-270, radius)
     else:
         raise ValueError("The angle must be between 0 and 360 degrees. Current Angel is " + str(alpha))
 
