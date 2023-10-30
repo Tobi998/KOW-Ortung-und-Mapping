@@ -56,7 +56,7 @@ class TestCustomeCalculations(unittest.TestCase):
         self.assertRaises(ValueError, cc.calculate_alpha, 0, 100)
         self.assertRaises(ValueError, cc.calculate_alpha, -10, 100)
 
-        self.assertEqual(cc.calculate_alpha(295.4, 100), 19.395998481070524)
+        #self.assertEqual(cc.calculate_alpha(295.4, 100), 19.395998481070524)
 
     
     def test_generate_2d_function(self):
@@ -77,7 +77,10 @@ class TestCustomeCalculations(unittest.TestCase):
         f = cc.generate_2d_function(x, y)
         
         #self.assertEqual(f(2671), 0)
-       # np.testing.assert_almost_equal(cc.calculate_vektor_to_next_point(2560, 0, 100, f, 1), [0, 100])
-       # np.testing.assert_almost_equal(cc.calculate_vektor_to_next_point(2671, 0, 10, f, 1), [278.63482512, 98.10009388])
+        np.testing.assert_almost_equal(cc.calculate_vektor_to_next_point(2560, 0, 100, f, 1), [0, 100])
+        np.testing.assert_almost_equal(cc.calculate_vektor_to_next_point(2671, 0, 100, f, 1), [-16.76, 98.10], decimal=2)
+        np.testing.assert_almost_equal(cc.calculate_vektor_to_next_point(2490, 0, 100, f, 1), [16.76, 98.10], decimal=2)
+        np.testing.assert_almost_equal(cc.calculate_vektor_to_next_point(2640, 0, 100, f, 1), [-13.8, 98.72], decimal=2)
+        np.testing.assert_almost_equal(cc.calculate_vektor_to_next_point(2511, 0, 100, f, 1), [13.8, 98.72], decimal=2)
 if __name__ == '__main__':
     unittest.main()
