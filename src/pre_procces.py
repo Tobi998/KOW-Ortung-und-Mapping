@@ -14,6 +14,7 @@ def read_csv_file(file_path):
     :return: A pandas dataframe containing the content of the csv-file
     """
     df = pd.read_csv(file_path)
+    df = df.reset_index(drop=True)
     return df   
 
 
@@ -27,4 +28,16 @@ def filter_dublicates(df):
     :return: The pandas dataframe without dublicates
     """
     df = df.drop_duplicates(subset=['fixpoint_odometer_steps'], keep='first')
+    #df = df[df['steering'].shift() != df['steering']]
+    return df
+
+def reverse_dataframe(df):
+    """
+    This function takes a pandas dataframe and reverses it
+
+    :param df: The pandas dataframe
+    :return: The reversed pandas dataframe
+    """
+    df = df.iloc[::-1]
+    df = df.reset_index(drop=True)
     return df

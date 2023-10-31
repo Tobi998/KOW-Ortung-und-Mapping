@@ -82,5 +82,8 @@ class TestCustomeCalculations(unittest.TestCase):
         np.testing.assert_almost_equal(cc.calculate_vektor_to_next_point(2490, 0, 100, f, 1), [16.76, 98.10], decimal=2)
         np.testing.assert_almost_equal(cc.calculate_vektor_to_next_point(2640, 0, 100, f, 1), [-13.8, 98.72], decimal=2)
         np.testing.assert_almost_equal(cc.calculate_vektor_to_next_point(2511, 0, 100, f, 1), [13.8, 98.72], decimal=2)
+
+    
+
 if __name__ == '__main__':
     unittest.main()

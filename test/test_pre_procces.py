@@ -10,7 +10,7 @@ import pandas as pd
 class TestPreProccess(unittest.TestCase):
 
     def test_read_csv_file(self):
-        self.assertEqual(5,5)
+        self.assertEqual(0, 0)
 
     def test_filter_dublicates(self):
         data_pre = {
