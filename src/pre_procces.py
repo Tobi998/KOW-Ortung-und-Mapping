@@ -15,3 +15,16 @@ def read_csv_file(file_path):
     """
     df = pd.read_csv(file_path)
     return df   
+
+
+def filter_dublicates(df):
+    """
+    This function takes a pandas dataframe and removes all dublicates 
+    based on fixpoint_odometer_steps
+    
+
+    :param df: The pandas dataframe
+    :return: The pandas dataframe without dublicates
+    """
+    df = df.drop_duplicates(subset=['fixpoint_odometer_steps'], keep='first')
+    return df
