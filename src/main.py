@@ -3,7 +3,8 @@ import calculate_coordinates as cco
 import user_interface as ui
 import custome_calculations as cc
 import pre_procces as pp
-
+import matplotlib.pyplot as plt
+import numpy as np
 path = ui.user_select_file()
 
 df = pp.read_csv_file(path)
@@ -34,12 +35,16 @@ y = [ 295.4, 360, 0,-360, -295.4]
 f = cc.generate_2d_function(x, y)
 ODOMETER_TO_MM_FACTOR = 1.4
 
+theta = np.linspace(2490, 2671, 100)
+plt.plot(theta, f(theta), 'r-', label='radius')
+plt.grid()
+plt.show()
 #print(f(2569))
-df = cco.add_radius_alpha_radian_to_df(df, f, ODOMETER_TO_MM_FACTOR)
+#df = cco.add_radius_alpha_radian_to_df(df, f, ODOMETER_TO_MM_FACTOR)
 
-print(df['alpha'].sum())
+#print(df['alpha'].sum())
 #print(df)
-#df.to_csv('data/circles.csv', index=False)
+#df.to_csv('data/test.csv', index=False)
 """
 df=df.iloc[::-1]
 print(df)

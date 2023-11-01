@@ -87,7 +87,7 @@ def generate_2d_function(x, y):
     :param x: x values of the function
     :param y: y values of the function
     """
-    return interp1d(x, y, kind='cubic', fill_value='extrapolate')
+    return interp1d(x, y, kind='cubic',fill_value='extrapolate')
 
 def calculate_radius(steering, hall__to_radius_function):
     """
@@ -145,12 +145,12 @@ def calculate_circle_to_next_point(steering, odometer_steps_point, odometer_step
     if(delta_steps < 0):
         raise ValueError("The odometer steps of the next point must be greater than the odometer steps of the current point."+
                          "Currently Point="+str(odometer_steps_point)+", Next Point="+str(odometer_steps_next_point))
-    if(radius == 0):
+    if(-160 < radius < 160 ):
         return 0, 0, delta_steps * ODOMETER_TO_MM_FACTOR
     elif(radius < 0):
         #negative radius means a right turn
         angle_alpha = calculate_alpha(-radius, delta_steps * ODOMETER_TO_MM_FACTOR)
-        return -radius, angle_alpha, delta_steps * ODOMETER_TO_MM_FACTOR
+        return -radius, -angle_alpha, delta_steps * ODOMETER_TO_MM_FACTOR
     else:
         angle_alpha = calculate_alpha(radius, delta_steps * ODOMETER_TO_MM_FACTOR)
         return radius, angle_alpha, delta_steps * ODOMETER_TO_MM_FACTOR

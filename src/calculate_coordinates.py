@@ -46,7 +46,7 @@ def add_radius_alpha_radian_to_df(df, hall__to_radius_function, ODOMETER_TO_MM_F
                                                      , hall__to_radius_function, ODOMETER_TO_MM_FACTOR)
         df.at[index, 'radius'] = radius
         df.at[index, 'alpha'] = alpha
-        df.at[index, 'rad'] = radian
+        df.at[index, 'radian'] = radian
 
 
     #vectorisation
