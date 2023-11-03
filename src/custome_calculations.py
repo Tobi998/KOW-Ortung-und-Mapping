@@ -145,12 +145,12 @@ def calculate_circle_to_next_point(steering, odometer_steps_point, odometer_step
     if(delta_steps < 0):
         raise ValueError("The odometer steps of the next point must be greater than the odometer steps of the current point."+
                          "Currently Point="+str(odometer_steps_point)+", Next Point="+str(odometer_steps_next_point))
-    if(-160 < radius < 160 ):
+    if(radius == 0):
         return 0, 0, delta_steps * ODOMETER_TO_MM_FACTOR
     elif(radius < 0):
         #negative radius means a right turn
         angle_alpha = calculate_alpha(-radius, delta_steps * ODOMETER_TO_MM_FACTOR)
-        return -radius, -angle_alpha, delta_steps * ODOMETER_TO_MM_FACTOR
+        return radius, -angle_alpha, delta_steps * ODOMETER_TO_MM_FACTOR
     else:
         angle_alpha = calculate_alpha(radius, delta_steps * ODOMETER_TO_MM_FACTOR)
         return radius, angle_alpha, delta_steps * ODOMETER_TO_MM_FACTOR
