@@ -14,7 +14,7 @@ x = np.linspace(2671, 2490, 100)
 #x = np.linspace(2700, 2450, 100)
 y = function(x)
 
-function(4000)
+#function(4000)
 
 plt.scatter(x,y)
 plt.show()
