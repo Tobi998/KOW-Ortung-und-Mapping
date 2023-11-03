@@ -6,7 +6,6 @@ It also contains functions to display other colums of the dataframe as a heat ma
 
 import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
 def plot_graph(x, y):
     """
     This function takes x and y values
@@ -135,7 +134,7 @@ def adjust_center_and_offset_change_turn(center_x, center_y, offset_alpha, radiu
     #Add or subtract 180 degrees to offset_alpha
     new_offset_alpha = offset_alpha + left_turn * 180
 
-    print("Old:",center_x,center_x,offset_alpha, " New:",new_center_x,new_center_y,new_offset_alpha)
+    #print("Old:",center_x,center_x,offset_alpha, " New:",new_center_x,new_center_y,new_offset_alpha)
     return new_center_x, new_center_y, new_offset_alpha
 
 def plot_heat_map(x, y, z):
@@ -151,12 +150,9 @@ def plot_heat_map(x, y, z):
     plt.scatter(x, y, c=z)
     plt.show()
 
+def show_plot():
+    plt.show()
 
 
-plt.gca().set_aspect('equal', adjustable='box')  # Make the plot aspect ratio equal
 
 
-#print(center_x, center_y)
-df = pd.read_csv('data/test2.csv')
-plot_graph_with_semi_circle(df)
-plt.show()

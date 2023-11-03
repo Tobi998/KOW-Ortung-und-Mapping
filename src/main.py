@@ -3,8 +3,7 @@ import calculate_coordinates as cco
 import user_interface as ui
 import custome_calculations as cc
 import pre_procces as pp
-import matplotlib.pyplot as plt
-import numpy as np
+import plot as my_plt
 path = ui.user_select_file()
 
 df = pp.read_csv_file(path)
@@ -43,9 +42,9 @@ print(df)
 
 
 #plot
+my_plt.plot_graph_with_semi_circle(df)
 
-
-
+my_plt.show_plot()
 
 
 

@@ -36,7 +36,7 @@ def add_radius_alpha_radian_to_df(df, hall__to_radius_function, ODOMETER_TO_MM_F
     """
     df['radius']=float(0)
     df['alpha']=float(0)
-    df['rad']=float(0)
+    df['radian']=float(0)
 
     #iterrows solution
     for index in range(len(df)-1):
