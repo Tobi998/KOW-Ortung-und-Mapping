@@ -5,7 +5,7 @@ and turn it to a pandas dataframe that can be used by other modules.
 
 import pandas as pd
 import datetime
-def read_csv_file(file_path):
+def read_csv_file(file_path, seperator):
     """
     This function takes a file path of a csv-file
     and returns it content as a pandas dataframe
@@ -13,7 +13,7 @@ def read_csv_file(file_path):
     :param file_path: The path to the csv-file
     :return: A pandas dataframe containing the content of the csv-file
     """
-    df = pd.read_csv(file_path)
+    df = pd.read_csv(file_path, sep=seperator)
     df = df.reset_index(drop=True)
     return df   
 
@@ -72,7 +72,7 @@ def drop_unused_columes(df, columes_to_drop):
 
     return df
 
-def save_dataframe_to_csv(df, name, path):
+def save_dataframe_to_csv(df, path):
     """
     This function takes a pandas dataframe and saves it to a csv-file
 
@@ -81,5 +81,5 @@ def save_dataframe_to_csv(df, name, path):
     """
     now = datetime.datetime.now()
     timestamp = now.strftime("%d-%m-%Y_%H-%M-%S")
-    filename = path +"\\" + name + "_" + timestamp + ".csv"
+    filename = path + "_" + timestamp + ".csv"
     df.to_csv(filename, index=False)

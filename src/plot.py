@@ -6,6 +6,8 @@ It also contains functions to display other colums of the dataframe as a heat ma
 
 import matplotlib.pyplot as plt
 import numpy as np
+import datetime
+
 def plot_graph(x, y):
     """
     This function takes x and y values
@@ -153,6 +155,13 @@ def plot_heat_map(x, y, z):
 def show_plot():
     plt.show()
 
+def save_plot(path):
+    """
+    Saves current plot to a png-file
 
+    :param path: The path to save the file to
+    """
+
+    plt.savefig(path)
 
 

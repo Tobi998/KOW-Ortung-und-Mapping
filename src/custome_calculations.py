@@ -87,7 +87,15 @@ def generate_2d_function(x, y):
     :param x: x values of the function
     :param y: y values of the function
     """
-    return interp1d(x, y, kind='cubic',fill_value='extrapolate')
+    if(len(x) != len(y)):
+        raise ValueError("The x and y arrays must have the same length")
+    #Sort the arrays
+    xy_pairs = sorted(zip(x, y))
+    x_sorted, y_sorted = zip(*xy_pairs)
+    print(x_sorted)
+    print(y_sorted)
+
+    return interp1d(x_sorted, y_sorted, kind='cubic',fill_value='extrapolate')
 
 def calculate_radius(steering, hall__to_radius_function):
     """

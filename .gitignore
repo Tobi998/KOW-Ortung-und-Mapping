@@ -160,6 +160,7 @@ cython_debug/
 #.idea/
 
 # output folders
-data/preprocces/
-data/postcalc/
-data/postprocces/
+data/preprocces/*
+data/postcalc/*
+data/postprocces/*
+data/plot/*
