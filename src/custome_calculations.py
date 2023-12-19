@@ -92,8 +92,8 @@ def generate_2d_function(x, y):
     #Sort the arrays
     xy_pairs = sorted(zip(x, y))
     x_sorted, y_sorted = zip(*xy_pairs)
-    print(x_sorted)
-    print(y_sorted)
+    #print(x_sorted)
+    #print(y_sorted)
 
     return interp1d(x_sorted, y_sorted, kind='cubic',fill_value='extrapolate')
 

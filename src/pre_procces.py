@@ -83,3 +83,18 @@ def save_dataframe_to_csv(df, path):
     timestamp = now.strftime("%d-%m-%Y_%H-%M-%S")
     filename = path + "_" + timestamp + ".csv"
     df.to_csv(filename, index=False)
+
+
+def filter_high_steering(df, threshold):
+    """
+    This function takes a pandas dataframe and removes all rows
+    where the steering value is higher than the threshold
+
+    :param df: The pandas dataframe
+    :param threshold: The threshold value
+    :return: The pandas dataframe without high steering values
+    """
+    #Create bool-mask with df['steering'] < threshold than filter all rows not meeting the condition
+    df = df[df['steering'] < threshold]
+    df = df.reset_index(drop=True)
+    return df
