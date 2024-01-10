@@ -7,6 +7,8 @@ This assumes that the dataframe containes messurments of the KOW.
 import numpy as np
 import pandas as pd
 from custome_calculations import calculate_vektor_to_next_point, calculate_circle_to_next_point
+
+#unused remove later
 def add_x_and_y_to_df(df, hall__to_radius_function, ODOMETER_TO_MM_FACTOR ):
     """
     This function takes a pandas dataframe with KOW-Data and adds x and y values to each row.

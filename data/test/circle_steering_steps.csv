@@ -1,6 +1,8 @@
-steering,fixpoint_odometer_steps
-2640, 0
-2640, 565
-2640, 1130
-2640, 1696
-2640, 2261
+steering;fixpoint_odometer_steps
+3240; 1933
+2820; 1566
+3240; 968
+2820; 598
+3240; 0
+
+

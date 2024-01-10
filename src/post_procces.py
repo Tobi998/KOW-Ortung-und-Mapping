@@ -21,3 +21,21 @@ def map_low_radius_to_0(df, threshold):
     df.loc[mask, 'alpha'] = 0
     
     return df
+
+def mark_unstable_values():
+    """
+    Marks unstable values in the dataframe
+    """
+    return 0
+
+def replace_unstable_values():
+    """
+    Replaces unstable values in the dataframe
+    """
+    return 0
+
+def exponential_smoothin(df, col_name, alpha):
+    """
+    Smooths the values in the dataframe using exponential smoothing
+    """
+    return 0

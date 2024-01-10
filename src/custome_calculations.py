@@ -106,6 +106,8 @@ def calculate_radius(steering, hall__to_radius_function):
     """
     return hall__to_radius_function(steering)
 
+
+#unused remove later
 def calculate_vektor_to_next_point(steering, odometer_steps_point, odometer_steps_next_point, hall__to_radius_function, ODOMETER_TO_MM_FACTOR):
     """
     Calculates the vektor to the next messurment of the KOW
