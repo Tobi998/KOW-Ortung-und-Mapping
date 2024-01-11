@@ -77,6 +77,9 @@ pp.save_dataframe_to_csv(df,'data/postcalc/calculatet_data')
 #post proccesing
 df = pop.map_low_radius_to_0(df, 150)
 
+df = pop.mark_unstable_values(df, 10, 30)
+df = pop.replace_unstable_values(df)
+
 pp.save_dataframe_to_csv(df, 'data/postprocces/postprocces_data')
 #plot
 my_plt.plot_graph_with_semi_circle(df)
