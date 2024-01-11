@@ -5,7 +5,7 @@ and turn it to a pandas dataframe that can be used by other modules.
 
 import pandas as pd
 import datetime
-def read_csv_file(file_path, seperator):
+def read_csv_file(file_path):
     """
     This function takes a file path of a csv-file
     and returns it content as a pandas dataframe
@@ -13,7 +13,9 @@ def read_csv_file(file_path, seperator):
     :param file_path: The path to the csv-file
     :return: A pandas dataframe containing the content of the csv-file
     """
-    df = pd.read_csv(file_path, sep=seperator)
+    
+
+    df = pd.read_csv(file_path, sep=None, engine='python')
     df = df.reset_index(drop=True)
     return df   
 
@@ -96,5 +98,19 @@ def filter_high_steering(df, threshold):
     """
     #Create bool-mask with df['steering'] < threshold than filter all rows not meeting the condition
     df = df[df['steering'] < threshold]
+    df = df.reset_index(drop=True)
+    return df
+
+def filter_low_steering(df, threshold):
+    """
+    This function takes a pandas dataframe and removes all rows
+    where the steering value is lower than the threshold
+
+    :param df: The pandas dataframe
+    :param threshold: The threshold value
+    :return: The pandas dataframe without low steering values
+    """
+    #Create bool-mask with df['steering'] < threshold than filter all rows not meeting the condition
+    df = df[df['steering'] > threshold]
     df = df.reset_index(drop=True)
     return df

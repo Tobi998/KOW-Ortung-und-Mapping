@@ -5,8 +5,6 @@ import custome_calculations as cc
 import pre_procces as pp
 import post_procces as pop
 import plot as my_plt
-import matplotlib.pyplot as plt
-import numpy as np
 import misc
 import config
 import ast
@@ -53,8 +51,8 @@ plt.show()
 path = ui.user_select_file()
 #csv_seperator = ui.ask_user_for_character("What seperator is used in the csv-file?")
 
-csv_seperator = config.load_config('config.ini', 'DEFAULT', 'CSV_Sepperator')
-df = pp.read_csv_file(path, csv_seperator)
+
+df = pp.read_csv_file(path)
 user_wants_to_preprocces = ui.ask_user_true_false("Do you want to preprocces the data?")
 
 
@@ -92,17 +90,16 @@ print("Abstand erster und letzter Punkt: ", ev.calculate_distance_first_last_poi
 
 #Load df for comparrison
 path_test = "data/compare_data/compare_data_outer_circle_1.csv"
-seperator_test=','
-df_test = pp.read_csv_file(path_test, seperator_test)
-df_compare, average, standard_deviation, median, max, total = ev.evaluate_radius_diff_over_distance(df, df)
+
+df_test = pp.read_csv_file(path_test)
+df_compare, average, standard_deviation, median, max, total = ev.evaluate_radius_diff_over_distance(df, df_test)
 print("Average: ", average)
 print("Standard deviation: ", standard_deviation)
 print("Median: ", median)
 print("Max: ", max)
 print("Total: ", total)
-print(df_test)
-pp.save_dataframe_to_csv(df_compare,'data/evaluate/calculatet_data')
 
+pp.save_dataframe_to_csv(df_compare,'data/evaluate/calculatet_data')
 
 my_plt.show_plot()
 

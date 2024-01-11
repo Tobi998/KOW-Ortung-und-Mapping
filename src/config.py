@@ -23,8 +23,8 @@ def load_config_all(path):
     radius_mm = config['DEFAULT']['Radius_mm']
     hall_mv = config['DEFAULT']['Hall_mv']
     preprocces = config['DEFAULT']['Preprocces']
-    csv_seperator = config['DEFAULT']['CSV_Sepperator']
-    return odometertomm, radius_mm, hall_mv, preprocces, csv_seperator
+
+    return odometertomm, radius_mm, hall_mv, preprocces
 
 def create_default_config():
     """
@@ -37,9 +37,7 @@ def create_default_config():
         "ODOMETER_TO_MM_FACTOR" : 2.9,
         "Radius_mm" : [ 295.4, 360, 0,-360, -295.4],
         "Hall_mv" : [2671, 2640, 2570, 2511, 2490],
-        "Preprocces" : "True",
-        "CSV_Sepperator" : ","
-
+        "Preprocces" : "True"
     }
 
     with open('config.ini', 'w') as configfile:

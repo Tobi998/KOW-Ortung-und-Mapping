@@ -64,7 +64,7 @@ def compare_calc_test_graph(df_calc, df_test):
 
     compare_list = []
 
-    print(df_test)
+
     #loop to add row for each step
     for step in range(total_steps + 1):
         #get the radius for the current step
@@ -79,7 +79,7 @@ def compare_calc_test_graph(df_calc, df_test):
 
 
     df_compare = pd.DataFrame(compare_list, columns=['radius-calc', 'radius-test', 'radius-diff'])
-    #print(df_compare)
+
     return df_compare
 
 def get_row_from_df_by_step(df, step):
