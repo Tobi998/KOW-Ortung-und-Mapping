@@ -6,6 +6,8 @@ It also contains functions to display other colums of the dataframe as a heat ma
 
 import matplotlib.pyplot as plt
 import numpy as np
+
+
 def plot_graph(x, y):
     """
     This function takes x and y values
@@ -39,7 +41,7 @@ def plot_semi_circle(radius, alpha, center_x, center_y, offset_alpha):
     plt.plot(x, y, color='r', linewidth=2)
     return 0
 
-def plot_line(radius, length, center_x, center_y, offset_alpha, left_turn):
+def plot_line(length, center_x, center_y, offset_alpha, left_turn):
     """
     Adds a line to a plot.
     this line is added as an extension to a semi-circle.
@@ -62,8 +64,12 @@ def plot_line(radius, length, center_x, center_y, offset_alpha, left_turn):
     line_x_rotatet = line_x * np.cos(theta) - line_y * np.sin(theta)
     line_y_rotatet = line_x * np.sin(theta) + line_y * np.cos(theta)
 
-    line_x_final = line_x_rotatet + center_x + radius * np.cos(offset_alpha_rad)
-    line_y_final = line_y_rotatet + center_y + radius * np.sin(offset_alpha_rad)
+    #old code delete later
+    #line_x_final = line_x_rotatet + center_x + radius * np.cos(offset_alpha_rad)
+    #line_y_final = line_y_rotatet + center_y + radius * np.sin(offset_alpha_rad)
+
+    line_x_final = line_x_rotatet + center_x
+    line_y_final = line_y_rotatet + center_y
 
     plt.plot(line_x_final, line_y_final, color='r', linewidth=2)
 
@@ -88,9 +94,9 @@ def plot_graph_with_semi_circle(df):
     plt.gca().set_aspect('equal', adjustable='box')  # Make the plot aspect ratio equal
     
     for index, row in df.iterrows(): #don't remove index, otheerwise it will not work
-        #print(center_x, center_y, offset_alpha, prev_radius)
-        #  
-        if(left_turn * row['alpha'] < 0): #1 * negative alpha indicates switch from left to right turn and vise versa
+
+       
+        if(left_turn * row['alpha'] < 0): #negative "left_turn * alpha" indicates switch from left to right turn and vise versa
             center_x, center_y, offset_alpha = adjust_center_and_offset_change_turn(center_x, center_y, offset_alpha, prev_radius, left_turn)
             left_turn = -left_turn
 
@@ -100,8 +106,8 @@ def plot_graph_with_semi_circle(df):
             prev_radius = row['radius']
         
 
-        if(row['alpha'] == 0):
-            plot_line(row['radius'], row['radian'], center_x, center_y, offset_alpha, left_turn)
+        if(row['radius'] == 0):
+            plot_line(row['radian'], center_x, center_y, offset_alpha, left_turn)
             center_x += - left_turn * row['radian'] * np.sin(np.radians(offset_alpha))
             center_y += left_turn   * row['radian'] * np.cos(np.radians(offset_alpha))
         else:
@@ -137,22 +143,18 @@ def adjust_center_and_offset_change_turn(center_x, center_y, offset_alpha, radiu
     #print("Old:",center_x,center_x,offset_alpha, " New:",new_center_x,new_center_y,new_offset_alpha)
     return new_center_x, new_center_y, new_offset_alpha
 
-def plot_heat_map(x, y, z):
-    """
-    This function takes x and y values
-    and plots a heat map based on them.
 
-    :param x: The x values
-    :param y: The y values
-    :param z: The z values
-    :return: None
-    """
-    plt.scatter(x, y, c=z)
-    plt.show()
 
 def show_plot():
     plt.show()
 
+def save_plot(path):
+    """
+    Saves current plot to a png-file
 
+    :param path: The path to save the file to
+    """
+
+    plt.savefig(path)
 
 

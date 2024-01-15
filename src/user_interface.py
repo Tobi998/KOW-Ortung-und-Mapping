@@ -17,4 +17,25 @@ def user_select_file():
     return file_path
 
 
-#print(user_select_file())
+def ask_user_true_false(text):
+    """
+    Show the user a text and ask him to answer with true or false
+
+    :param text: The text to show the user
+    """
+    root = tk.Tk()
+    root.withdraw()
+    answer = tk.messagebox.askyesno("Question", text)
+    return answer
+
+def ask_user_for_character(text):
+    """
+    Show the user a text and ask him to answer with a character
+
+    :param text: The text to show the user
+    :return: The character the user entered
+    """
+    root = tk.Tk()
+    root.withdraw()
+    answer = tk.simpledialog.askstring("Input", text)
+    return answer	

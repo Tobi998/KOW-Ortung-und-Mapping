@@ -13,7 +13,9 @@ def read_csv_file(file_path):
     :param file_path: The path to the csv-file
     :return: A pandas dataframe containing the content of the csv-file
     """
-    df = pd.read_csv(file_path)
+    
+
+    df = pd.read_csv(file_path, sep=None, engine='python')
     df = df.reset_index(drop=True)
     return df   
 
@@ -72,7 +74,7 @@ def drop_unused_columes(df, columes_to_drop):
 
     return df
 
-def save_dataframe_to_csv(df, name, path):
+def save_dataframe_to_csv(df, path):
     """
     This function takes a pandas dataframe and saves it to a csv-file
 
@@ -81,5 +83,34 @@ def save_dataframe_to_csv(df, name, path):
     """
     now = datetime.datetime.now()
     timestamp = now.strftime("%d-%m-%Y_%H-%M-%S")
-    filename = path +"\\" + name + "_" + timestamp + ".csv"
+    filename = path + "_" + timestamp + ".csv"
     df.to_csv(filename, index=False)
+
+
+def filter_high_steering(df, threshold):
+    """
+    This function takes a pandas dataframe and removes all rows
+    where the steering value is higher than the threshold
+
+    :param df: The pandas dataframe
+    :param threshold: The threshold value
+    :return: The pandas dataframe without high steering values
+    """
+    #Create bool-mask with df['steering'] < threshold than filter all rows not meeting the condition
+    df = df[df['steering'] < threshold]
+    df = df.reset_index(drop=True)
+    return df
+
+def filter_low_steering(df, threshold):
+    """
+    This function takes a pandas dataframe and removes all rows
+    where the steering value is lower than the threshold
+
+    :param df: The pandas dataframe
+    :param threshold: The threshold value
+    :return: The pandas dataframe without low steering values
+    """
+    #Create bool-mask with df['steering'] < threshold than filter all rows not meeting the condition
+    df = df[df['steering'] > threshold]
+    df = df.reset_index(drop=True)
+    return df
