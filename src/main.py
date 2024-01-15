@@ -9,7 +9,7 @@ import misc
 import config
 import ast
 import evaluate as ev
-
+import numpy as np
 #x = [2671, 2640, 2570, 2511, 2490] 
 #y = [ 295.4, 360, 0,-360, -295.4] 
 
@@ -19,7 +19,7 @@ y = ast.literal_eval(config.load_config('config.ini', 'DEFAULT', 'Radius_mm'))
 xy = sorted(zip(x, y))
 x, y = zip(*xy)
 
-f = cc.generate_2d_function(x, y)
+f = cc.generate_2d_function_cubic(x, y)
 
 """
 x_new = np.linspace(min(x), max(x), num=1000, endpoint=True)
@@ -33,10 +33,6 @@ plt.show()
 
 
 
-
-
-
-#ODOMETER_TO_MM_FACTOR = 2.9
 ODOMETER_TO_MM_FACTOR = float(config.load_config('config.ini', 'DEFAULT', 'ODOMETER_TO_MM_FACTOR'))
 
 #Show function
@@ -57,15 +53,39 @@ user_wants_to_preprocces = ui.ask_user_true_false("Do you want to preprocces the
 
 
 #pre proccesing
-if(user_wants_to_preprocces):
-    columes_to_drop = ['board_time','server_time','odometer_speed','tie', 'fixpoint_hall','fixpoint_tie_steps','fixpoint_time','wifi','battery']
-    df = pp.drop_unused_columes(df, columes_to_drop)
-    df = pp.filter_dublicates(df)
-    df = pp.reverse_dataframe(df)
-    df = pp.filter_high_steering(df, 3500)
+
+columes_to_drop = ['board_time','server_time','odometer_speed','tie', 'fixpoint_hall','fixpoint_tie_steps','fixpoint_time','wifi','battery']
+df = pp.drop_unused_columes(df, columes_to_drop)
+df = pp.filter_dublicates(df)
+df = pp.reverse_dataframe(df)
+df = pp.filter_high_steering(df, 3500)
+
+
+
+#df = pop.mark_unstable_values(df, 10, 30, 'steering')
+
+#df = pop.savgol_smoothing(df, 'steering', 3, 1)
+
+#df = pop.exponential_smoothing(df,'steering', 0.9)
+
+#df = pop.moving_averge(df,'steering', 3)
+
+#df = pop.moving_averge_with_dynamic_window(df,'steering')
+
+#df = pop.replace_unstable_values(df, 'steering')
+
+
+#mapping_values = np.array([0, 360])
+
+#df = pop.map_to_closest_value(df, 'steering', mapping_values)
 
 pp.save_dataframe_to_csv(df, 'data/preprocces/preprocces_data')
 #df.to_csv('data/filtered_data.csv', index=False)
+
+
+
+
+
 
 #calculate coordinates
 df = cco.add_radius_alpha_radian_to_df(df, f, ODOMETER_TO_MM_FACTOR)
@@ -77,10 +97,27 @@ pp.save_dataframe_to_csv(df,'data/postcalc/calculatet_data')
 #post proccesing
 df = pop.map_low_radius_to_0(df, 150)
 
-df = pop.mark_unstable_values(df, 10, 30)
-df = pop.replace_unstable_values(df)
+#df = pop.mark_unstable_values(df, 10, 30, 'radius')
+
+#df = pop.exponential_smoothing(df,'radius', 0.9)
+
+#df = pop.moving_averge(df,'radius', 3)
+
+#df = pop.moving_averge_with_dynamic_window(df,'radius')
+
+#df = pop.replace_unstable_values(df,'radius')
+
+
+#mapping_values = np.array([0, 360])
+
+#df = pop.map_to_closest_value(df, 'radius', mapping_values)
+
+
+
+df_summery = pop.summarize_curves(df)
 
 pp.save_dataframe_to_csv(df, 'data/postprocces/postprocces_data')
+pp.save_dataframe_to_csv(df_summery, 'data/graph_summery/summery_data')
 #plot
 my_plt.plot_graph_with_semi_circle(df)
 
