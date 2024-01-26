@@ -97,16 +97,15 @@ def plot_graph_with_semi_circle(df):
 
 
         if(left_turn * row['alpha'] < 0): #negative "left_turn * alpha" indicates switch from left to right turn and vise versa
-            center_x, center_y, offset_alpha = adjust_center_and_offset_change_turn(center_x, center_y, offset_alpha, prev_radius, left_turn)
+            center_x, center_y, offset_alpha = adjust_center_and_offset_change_turn(center_x, center_y, offset_alpha, prev_radius)
             left_turn = -left_turn
-            print("Switched turn direction to ",left_turn)
-            print("New center:",center_x," ",center_y)
+            print("Turn","radius:",row['radius']," offset_alpha:",offset_alpha," center:",center_x," ",center_y)
 
         if(row['radius'] != prev_radius):
     
-            center_x, center_y = adjust_center_new_radius(center_x, center_y, offset_alpha, prev_radius, row['radius'])
+            center_x, center_y = adjust_center_new_radius(center_x, center_y, offset_alpha, prev_radius, row['radius'], left_turn)
             prev_radius = row['radius']
-            print("New center:",center_x," ",center_y)
+            print("Radchange","radius:",row['radius']," offset_alpha:",offset_alpha," center:",center_x," ",center_y)
         
 
         if(row['radius'] == 0):
@@ -117,11 +116,11 @@ def plot_graph_with_semi_circle(df):
             plot_semi_circle(row['radius'], row['alpha'], center_x, center_y, offset_alpha)
             offset_alpha += row['alpha']
 
-
+        print("End ","radius:",row['radius']," offset_alpha:",offset_alpha," center:",center_x," ",center_y)
     return 0
 
-def adjust_center_new_radius(center_x, center_y, offset_alpha, radius_old, radius_new):
-    diff = radius_old - radius_new
+def adjust_center_new_radius(center_x, center_y, offset_alpha, radius_old, radius_new, left_turn):
+    diff = left_turn* (abs(radius_old) - abs(radius_new))
 
     #print("Input",diff, offset_alpha)
     diff_x = diff * np.cos(np.radians(offset_alpha))
@@ -132,10 +131,10 @@ def adjust_center_new_radius(center_x, center_y, offset_alpha, radius_old, radiu
     return new_center_x, new_center_y
 
 
-def adjust_center_and_offset_change_turn(center_x, center_y, offset_alpha, radius, left_turn):
+def adjust_center_and_offset_change_turn(center_x, center_y, offset_alpha, radius):
 
     #Add or subtract 180 degrees to offset_alpha
-    new_offset_alpha = offset_alpha + left_turn * 180
+    new_offset_alpha = offset_alpha
 
     #Mirror center through latest point on circle
     mirrorpoint = (center_x + radius * np.cos(np.radians(offset_alpha)), center_y + radius * np.sin(np.radians(offset_alpha)))
