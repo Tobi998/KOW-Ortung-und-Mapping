@@ -41,7 +41,7 @@ def plot_semi_circle(radius, alpha, center_x, center_y, offset_alpha):
     plt.plot(x, y, color='r', linewidth=2)
     return 0
 
-def plot_line(length, center_x, center_y, offset_alpha, left_turn):
+def plot_line(length, center_x, center_y, offset_alpha):
     """
     Adds a line to a plot.
     this line is added as an extension to a semi-circle.
@@ -56,13 +56,11 @@ def plot_line(length, center_x, center_y, offset_alpha, left_turn):
     line_x = np.array([0,0]) 
     line_y = np.array([0,length]) 
 
-    if(left_turn == -1):
-        theta = np.radians(offset_alpha)
-    else:
-        theta = np.radians(offset_alpha)
 
-    line_x_rotatet = line_x * np.cos(theta) - line_y * np.sin(theta)
-    line_y_rotatet = line_x * np.sin(theta) + line_y * np.cos(theta)
+    alpha_rad = np.radians(offset_alpha)
+
+    line_x_rotatet = line_x * np.cos(alpha_rad) - line_y * np.sin(alpha_rad)
+    line_y_rotatet = line_x * np.sin(alpha_rad) + line_y * np.cos(alpha_rad)
 
 
 
@@ -71,8 +69,6 @@ def plot_line(length, center_x, center_y, offset_alpha, left_turn):
 
     plt.plot(line_x_final, line_y_final, color='r', linewidth=2)
 
-    #line_start = (radius + center_x, center_y)
-    #line_stop = (radius + center_x, length + center_y)
     return 0
 
 
@@ -99,24 +95,21 @@ def plot_graph_with_semi_circle(df):
         if(left_turn * row['alpha'] < 0): #negative "left_turn * alpha" indicates switch from left to right turn and vise versa
             center_x, center_y, offset_alpha = adjust_center_and_offset_change_turn(center_x, center_y, offset_alpha, prev_radius)
             left_turn = -left_turn
-            print("Turn","radius:",row['radius']," offset_alpha:",offset_alpha," center:",center_x," ",center_y)
 
         if(row['radius'] != prev_radius):
     
             center_x, center_y = adjust_center_new_radius(center_x, center_y, offset_alpha, prev_radius, row['radius'], left_turn)
             prev_radius = row['radius']
-            print("Radchange","radius:",row['radius']," offset_alpha:",offset_alpha," center:",center_x," ",center_y)
         
 
         if(row['radius'] == 0):
-            plot_line(row['radian'], center_x, center_y, offset_alpha, left_turn)
+            plot_line(row['radian'], center_x, center_y, offset_alpha)
             center_x +=  - row['radian'] * np.sin(np.radians(offset_alpha))
             center_y +=  row['radian'] * np.cos(np.radians(offset_alpha))
         else:
             plot_semi_circle(row['radius'], row['alpha'], center_x, center_y, offset_alpha)
             offset_alpha += row['alpha']
 
-        print("End ","radius:",row['radius']," offset_alpha:",offset_alpha," center:",center_x," ",center_y)
     return 0
 
 def adjust_center_new_radius(center_x, center_y, offset_alpha, radius_old, radius_new, left_turn):

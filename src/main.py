@@ -48,15 +48,9 @@ plt.show()
 
 ODOMETER_TO_MM_FACTOR = float(config.load_config('config.ini', 'DEFAULT', 'ODOMETER_TO_MM_FACTOR'))
 
-#Show function
-"""
-theta = np.linspace(2490, 2671, 100)
-plt.plot(theta, f(theta), 'r-', label='radius')
-plt.grid()
-plt.show()
-"""
+
 path = ui.user_select_file()
-#csv_seperator = ui.ask_user_for_character("What seperator is used in the csv-file?")
+
 
 
 df = pp.read_csv_file(path)
@@ -77,18 +71,18 @@ df = pp.filter_low_steering(df, 2000)
 df = pop.mark_unstable_values(df, 10, 30, 'steering')
 
 
-#df = pop.savgol_smoothing(df, 'steering', 10, 1)
+#df = pop.savgol_smoothing(df, 'steering', 30, 1)
 
 #df = pop.exponential_smoothing(df,'steering', 0.9)
 
 #df = pop.moving_averge_with_dynamic_window(df,'steering')
 
 
-df = pop.replace_unstable_values(df, 'steering')
+#df = pop.replace_unstable_values(df, 'steering')
 
 mapping_values = np.array(x)
 
-df = pop.map_to_closest_value(df, 'steering', mapping_values)
+#df = pop.map_to_closest_value(df, 'steering', mapping_values)
 
 
 
@@ -118,6 +112,9 @@ df = pop.map_low_radius_to_0(df, 200)
 
 
 
+my_plt.plot_graph_with_semi_circle(df)
+
+my_plt.save_plot('data/plot/plot_'+misc.get_timestamp()+'.png')
 
 
 
@@ -129,7 +126,7 @@ if eval:
     print("Abstand erster und letzter Punkt: ", ev.calculate_distance_first_last_point()) 
 
     #Load df for comparrison
-    path_test = "data/compare_data/compare_data_track2.csv"
+    path_test = "data/compare_data/compare_data_track1.csv"
 
     df_test = pp.read_csv_file(path_test)
     df_compare, average, standard_deviation, median, max, total = ev.evaluate_radius_diff_over_distance(df, df_test)
@@ -145,9 +142,6 @@ df = pop.summarize_curves(df)
 pp.save_dataframe_to_csv(df, 'data/graph_summery/summery_data')
 
 #plot
-my_plt.plot_graph_with_semi_circle(df)
-
-my_plt.save_plot('data/plot/plot_'+misc.get_timestamp()+'.png')
 
 
 my_plt.show_plot()
