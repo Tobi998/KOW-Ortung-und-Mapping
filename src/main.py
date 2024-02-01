@@ -27,6 +27,7 @@ kind = config.load_config('config.ini', 'DEFAULT', 'interp_kind')
 f = cc.generate_2d_function(x, y, kind)
 
 
+
 """
 #Code used for Thesis remove for full release
 x_new = np.linspace(min(x), max(x), num=1000, endpoint=True)
