@@ -1,10 +1,11 @@
 """
 This file contains the post processing functions
 """
-import pandas as pd
+
 import numpy as np
 from scipy.signal import savgol_filter
-from pykalman import KalmanFilter
+
+
 def map_low_radius_to_0(df, threshold):
     """
     Maps all values in the colume radius which absolut values are lower than the threshold to 0
@@ -24,7 +25,7 @@ def map_low_radius_to_0(df, threshold):
     
     return df
 
-#drüberschauen
+
 def map_to_closest_value(df, column_name, value_list):
     """
     Maps all values in the colume_name to the closest value in value_list

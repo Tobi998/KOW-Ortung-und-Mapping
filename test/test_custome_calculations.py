@@ -56,7 +56,6 @@ class TestCustomeCalculations(unittest.TestCase):
         self.assertRaises(ValueError, cc.calculate_alpha, 0, 100)
         self.assertRaises(ValueError, cc.calculate_alpha, -10, 100)
 
-        #self.assertEqual(cc.calculate_alpha(295.4, 100), 19.395998481070524)
 
     
     def test_generate_2d_function(self):
