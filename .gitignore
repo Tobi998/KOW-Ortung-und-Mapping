@@ -161,3 +161,6 @@ cython_debug/
 
 # output folders
 
+data/compare_data/
+data/raw/
+data/test/
