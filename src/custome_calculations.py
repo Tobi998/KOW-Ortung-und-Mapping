@@ -5,7 +5,6 @@ messurement.
 """
 import numpy as np
 from scipy.interpolate import interp1d
-
 def calculate_adjacent_side(alpha, hypothenuse):
     """
     Calculates the adjacent side of a rectangular triangle
@@ -151,72 +150,22 @@ def calculate_circle_to_next_point(steering, odometer_steps_point, odometer_step
 
 
 
-def generate_2d_function_cubic(x, y):
+def generate_2d_function(x, y, kind):
     """
-    Generates a 2d function from two arrays using spline iterpolation of the third order
+    Generates a 2d function from two arrays using interpolation
 
     :param x: x values of the function
     :param y: y values of the function
+    :param kind: The kind of interpolation to use
     """
     if(len(x) != len(y)):
         raise ValueError("The x and y arrays must have the same length")
     #Sort the arrays
     xy_pairs = sorted(zip(x, y))
     x_sorted, y_sorted = zip(*xy_pairs)
-    #print(x_sorted)
-    #print(y_sorted)
-
-    return interp1d(x_sorted, y_sorted, kind='cubic',fill_value='extrapolate')
 
 
-def generate_2d_function_linear(x, y):
-    """
-    Generates a 2d function from two arrays using linear interpolation
-
-    :param x: x values of the function
-    :param y: y values of the function
-    """
-    if(len(x) != len(y)):
-        raise ValueError("The x and y arrays must have the same length")
-    #Sort the arrays
-    xy_pairs = sorted(zip(x, y))
-    x_sorted, y_sorted = zip(*xy_pairs)
-    #print(x_sorted)
-    #print(y_sorted)
-
-    return interp1d(x_sorted, y_sorted, kind='linear',fill_value='extrapolate')
-
-def generate_2d_function_slinear(x, y):
-    """
-    Generates a 2d function from two arrays using spline iterpolation of the first order
-
-    :param x: x values of the function
-    :param y: y values of the function
-    """
-    if(len(x) != len(y)):
-        raise ValueError("The x and y arrays must have the same length")
-    #Sort the arrays
-    xy_pairs = sorted(zip(x, y))
-    x_sorted, y_sorted = zip(*xy_pairs)
-    #print(x_sorted)
-    #print(y_sorted)
-
-    return interp1d(x_sorted, y_sorted, kind='slinear',fill_value='extrapolate')	
+    return interp1d(x_sorted, y_sorted, kind,fill_value='extrapolate')
 
 
-def generate_2d_function_quadratic(x, y):
-    """
-    Generates a 2d function from two arrays using spline iterpolation of the second order
 
-    :param x: x values of the function
-    :param y: y values of the function
-    """
-    if(len(x) != len(y)):
-        raise ValueError("The x and y arrays must have the same length")
-    #Sort the arrays
-    xy_pairs = sorted(zip(x, y))
-    x_sorted, y_sorted = zip(*xy_pairs)
-    #print(x_sorted)
-    #print(y_sorted)
-
-    return interp1d(x_sorted, y_sorted, kind='quadratic',fill_value='extrapolate')	

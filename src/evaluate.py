@@ -27,6 +27,21 @@ def calculate_distance_first_last_point():
     return distance
 
 
+def evaluate_radius_diff_from_compared_df(df):
+    """
+    Calculates evaluation metrics from a dataframe that contains the radius-diff of two graphs
+    """
+    df_compare = df
+    average = calc_average_from_df(df_compare)
+    standard_deviation = calc_standard_deviation_from_df(df_compare)
+    median = calc_median_from_df(df_compare)
+    max = calc_max_from_df(df_compare)
+    total = calc_total_from_df(df_compare)
+
+
+    return average, standard_deviation, median, max, total
+
+
 def evaluate_radius_diff_over_distance(df_calc, df_test):
     """
     Evaluates the difference between the radius of the calculated graph and the radius of the test graph
@@ -93,9 +108,13 @@ def get_row_from_df_by_step(df, step):
     #get the value from the last row where 'fixpoint_odometer_steps' is smaller or equal to step
     #use boolean mask to remove all rows where 'fixpoint_odometer_steps' is bigger than step
     #then take the last row of the remaining dataframe
-
-    row = df.loc[df['fixpoint_odometer_steps'] <= step].iloc[-1]
-
+    try:
+        row = df.loc[df['fixpoint_odometer_steps'] <= step].iloc[-1]
+    except IndexError:
+        #calling the methode with step = 0 will sometimes result in an empty dataframe when calling iloc[-1]
+        #this fix probaply isn't the best solution but it works
+        #maybe try thinking of something better when you have time
+        row = get_row_from_df_by_step(df, step+1)
     return row
 
 

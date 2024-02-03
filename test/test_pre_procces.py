@@ -4,7 +4,7 @@ from typing import Any
 sys.path.insert(1, 'src')
 
 import unittest
-import pre_procces as pp
+import pre_process as pp
 import pandas as pd
 
 class TestPreProccess(unittest.TestCase):
