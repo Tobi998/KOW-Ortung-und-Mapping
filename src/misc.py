@@ -3,7 +3,6 @@ This file contains miscellaneous functions that are used in the project.
 """
 
 import datetime
-import configparser
 def get_timestamp():
     """
     This function returns the current time as a string

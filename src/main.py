@@ -48,7 +48,7 @@ plt.show()
 
 
 ODOMETER_TO_MM_FACTOR = float(config.load_config('config.ini', 'DEFAULT', 'ODOMETER_TO_MM_FACTOR'))
-
+save_df= config.load_config_bool('config.ini', 'DEVELOPMENT', 'save_dataframe')
 
 path = ui.user_select_file()
 
@@ -60,34 +60,54 @@ df = pp.read_csv_file(path)
 
 #pre proccesing
 
+apply_unstable= config.load_config_bool('config.ini', 'REPLACEUNSTABLEVALUES', 'apply')
+apply_svagol= config.load_config_bool('config.ini', 'SVAGOLFILTER', 'apply')
+apply_exponential= config.load_config_bool('config.ini', 'EXPONENTIALSMOOTHING', 'apply')
+apply_average= config.load_config_bool('config.ini', 'AVERAGEDYNAMICWINDOW', 'apply')
+apply_mapping = config.load_config_bool('config.ini', 'POSTPROCESSINGGENERAL', 'map_to_closest')	
+
+min_steering = float(config.load_config('config.ini', 'POSTPROCESSINGGENERAL', 'min_steering'))
+max_steering = float(config.load_config('config.ini', 'POSTPROCESSINGGENERAL', 'max_steering'))
+
+
+
 columes_to_drop = ['board_time','server_time','odometer_speed','tie', 'fixpoint_hall','fixpoint_tie_steps','fixpoint_time','wifi','battery']
 df = pp.drop_unused_columes(df, columes_to_drop)
 df = pp.filter_dublicates(df)
 df = pp.reverse_dataframe(df)
-df = pp.filter_high_steering(df, 3500)
-df = pp.filter_low_steering(df, 2000)
+df = pp.filter_high_steering(df, max_steering)
+df = pp.filter_low_steering(df, min_steering)
 
+if(apply_unstable or apply_average):
+    unstable_range= float(config.load_config('config.ini', 'REPLACEUNSTABLEVALUES', 'range'))
+    unstable_threshold = float(config.load_config('config.ini', 'REPLACEUNSTABLEVALUES', 'threshold'))
 
+    df = pop.mark_unstable_values(df, unstable_range, unstable_threshold, 'steering')
 
-df = pop.mark_unstable_values(df, 10, 30, 'steering')
+if(apply_svagol):
+    window = int(config.load_config('config.ini', 'SVAGOLFILTER', 'windowsize'))
+    order = int(config.load_config('config.ini', 'SVAGOLFILTER', 'polyorder'))
+    df = pop.savgol_smoothing(df, 'steering', window, order)
 
+if(apply_exponential):
+    alpha = float(config.load_config('config.ini', 'EXPONENTIALSMOOTHING', 'alpha'))
+    df = pop.exponential_smoothing(df,'steering', 0.9)
 
-#df = pop.savgol_smoothing(df, 'steering', 30, 1)
+if(apply_average):
+    df = pop.moving_averge_with_dynamic_window(df,'steering')
 
-#df = pop.exponential_smoothing(df,'steering', 0.9)
+if(apply_unstable):
+    df = pop.replace_unstable_values(df, 'steering')
 
-#df = pop.moving_averge_with_dynamic_window(df,'steering')
-
-
-#df = pop.replace_unstable_values(df, 'steering')
 
 mapping_values = np.array(x)
 
-#df = pop.map_to_closest_value(df, 'steering', mapping_values)
+if(apply_mapping):
+    df = pop.map_to_closest_value(df, 'steering', mapping_values)
 
 
-
-pp.save_dataframe_to_csv(df, 'data/preprocces/preprocces_data')
+if(save_df):
+    pp.save_dataframe_to_csv(df, 'data/preprocces/preprocces_data')
 
 
 
@@ -97,19 +117,24 @@ pp.save_dataframe_to_csv(df, 'data/preprocces/preprocces_data')
 #calculate coordinates
 df = cco.add_radius_alpha_radian_to_df(df, f, ODOMETER_TO_MM_FACTOR)
 
-#pp.save_dataframe_to_csv(df,'data/postcalc/calculatet_data')
+
+if(save_df):
+    pp.save_dataframe_to_csv(df,'data/postcalc/calculatet_data')
 
 
 
 
 #post proccesing
-df = pop.map_low_radius_to_0(df, 200)
+    
+min_Radius = float(config.load_config('config.ini', 'POSTPROCESSINGGENERAL', 'min_radius'))
+
+df = pop.map_low_radius_to_0(df, min_Radius)
 
 
 
 
-
-#pp.save_dataframe_to_csv(df, 'data/postprocces/postprocces_data')
+if(save_df):
+    pp.save_dataframe_to_csv(df, 'data/postprocces/postprocces_data')
 
 
 
@@ -127,7 +152,7 @@ if eval:
     print("Abstand erster und letzter Punkt: ", ev.calculate_distance_first_last_point()) 
 
     #Load df for comparrison
-    path_test = "data/compare_data/compare_data_track1.csv"
+    path_test = config.load_config('config.ini', 'DEVELOPMENT', 'compare_df_path')
 
     df_test = pp.read_csv_file(path_test)
     df_compare, average, standard_deviation, median, max, total = ev.evaluate_radius_diff_over_distance(df, df_test)
@@ -137,10 +162,13 @@ if eval:
     print("Max: ", max)
     print("Total: ", total)
 
-    pp.save_dataframe_to_csv(df_compare,'data/evaluate/evaluate_data')
+    if(save_df):
+        pp.save_dataframe_to_csv(df_compare,'data/evaluate/evaluate_data')
 
 df = pop.summarize_curves(df)
-pp.save_dataframe_to_csv(df, 'data/graph_summery/summery_data')
+
+if(save_df):
+    pp.save_dataframe_to_csv(df, 'data/graph_summery/summery_data')
 
 #plot
 

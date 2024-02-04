@@ -21,7 +21,7 @@ class TestCalculateCoordinates(unittest.TestCase):
         })
 
         self.assertEqual(cco.add_x_and_y_to_df(df, f, ODOMETER_TO_MM_FACTOR).size, 24)
-        #print(cco.add_x_and_y_to_df(df, f, ODOMETER_TO_MM_FACTOR))
+
 
         df = pd.DataFrame({
             'fixpoint_odometer_steps': [0, 200, 400, 600, 800, 1000, 1200 ],      
@@ -29,7 +29,6 @@ class TestCalculateCoordinates(unittest.TestCase):
         })
 
         self.assertEqual(cco.add_x_and_y_to_df(df, f, ODOMETER_TO_MM_FACTOR).size, 28)
-        #print(cco.add_x_and_y_to_df(df, f, ODOMETER_TO_MM_FACTOR))
 
 
 

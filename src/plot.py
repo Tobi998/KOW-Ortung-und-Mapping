@@ -115,12 +115,11 @@ def plot_graph_with_semi_circle(df):
 def adjust_center_new_radius(center_x, center_y, offset_alpha, radius_old, radius_new, left_turn):
     diff = left_turn* (abs(radius_old) - abs(radius_new))
 
-    #print("Input",diff, offset_alpha)
     diff_x = diff * np.cos(np.radians(offset_alpha))
     diff_y = diff * np.sin(np.radians(offset_alpha))
     new_center_x = center_x + diff_x
     new_center_y = center_y + diff_y
-    #print("center:",new_center_x, new_center_y)
+
     return new_center_x, new_center_y
 
 
@@ -135,8 +134,6 @@ def adjust_center_and_offset_change_turn(center_x, center_y, offset_alpha, radiu
     new_center_x = center_x + 2 * mirrorvector[0]
     new_center_y = center_y + 2 * mirrorvector[1]
 
-
-    #print("Old:",center_x,center_x,offset_alpha, " New:",new_center_x,new_center_y,new_offset_alpha)
     return new_center_x, new_center_y, new_offset_alpha
 
 

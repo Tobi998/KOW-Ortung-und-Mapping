@@ -1,3 +1,7 @@
+"""
+This file is used to look at saved evaluation data.
+"""
+
 import pre_process as pp
 import evaluate as ev
 import user_interface as ui

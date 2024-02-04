@@ -89,35 +89,6 @@ def calculate_radius(steering, hall__to_radius_function):
     return hall__to_radius_function(steering)
 
 
-#unused remove later
-def calculate_vektor_to_next_point(steering, odometer_steps_point, odometer_steps_next_point, hall__to_radius_function, ODOMETER_TO_MM_FACTOR):
-    """
-    Calculates the vektor to the next messurment of the KOW
-
-    :param steering: The voltage induced by the hall sensor
-    :param odometer_steps_point: The odometer steps of the current point
-    :param odometer_steps_next_point: The odometer steps of the next point
-    :param hall__to_radius_function: A function which maps steering to thr radius of the rail
-    :param ODOMETER_TO_MM_FACTOR: A factor which maps the odometer steps to mm
-    """
-    print('A')
-    radius = hall__to_radius_function(steering)
-    radius = round(float(radius), 2)
-    delta_steps = odometer_steps_next_point - odometer_steps_point
-    if(delta_steps < 0):
-        raise ValueError("The odometer steps of the next point must be greater than the odometer steps of the current point."+
-                         "Currently Point="+str(odometer_steps_point)+", Next Point="+str(odometer_steps_next_point))
-    if(radius == 0):
-        return 0, delta_steps * ODOMETER_TO_MM_FACTOR
-    elif(radius < 0):
-        angle_alpha = calculate_alpha(-radius, delta_steps * ODOMETER_TO_MM_FACTOR)
-        x, y = calculate_vektor_in_circle(-radius, angle_alpha)
-        return -x, y
-    else:
-        angle_alpha = calculate_alpha(radius, delta_steps * ODOMETER_TO_MM_FACTOR)
-        x, y = calculate_vektor_in_circle(radius, angle_alpha)
-        return x, y
-
 def calculate_circle_to_next_point(steering, odometer_steps_point, odometer_steps_next_point, hall__to_radius_function, ODOMETER_TO_MM_FACTOR):
     """
     Calculates the partial circle to the next messurment of the KOW
