@@ -138,6 +138,8 @@ if(save_df):
 
 
 
+#plot
+
 my_plt.plot_graph_with_semi_circle(df)
 
 my_plt.save_plot('data/plot/plot_'+misc.get_timestamp()+'.png')
@@ -170,8 +172,8 @@ df = pop.summarize_curves(df)
 if(save_df):
     pp.save_dataframe_to_csv(df, 'data/graph_summery/summery_data')
 
-#plot
 
+#show plot
 
 my_plt.show_plot()
 
