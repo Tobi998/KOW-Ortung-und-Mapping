@@ -19,7 +19,7 @@ y = ast.literal_eval(config.load_config('config.ini', 'DEFAULT', 'Radius_mm'))
 xy = sorted(zip(x, y))
 x, y = zip(*xy)
 
-
+print(xy)
 
 
 kind = config.load_config('config.ini', 'DEFAULT', 'interp_kind')
@@ -39,6 +39,7 @@ df = pp.read_csv_file(path)
 
 #pre proccesing
 
+apply_mapsteering = config.load_config_bool('config.ini', 'MAPSTEERINGZERO', 'apply')
 apply_unstable= config.load_config_bool('config.ini', 'REPLACEUNSTABLEVALUES', 'apply')
 apply_svagol= config.load_config_bool('config.ini', 'SVAGOLFILTER', 'apply')
 apply_exponential= config.load_config_bool('config.ini', 'EXPONENTIALSMOOTHING', 'apply')
@@ -56,6 +57,12 @@ df = pp.filter_dublicates(df)
 df = pp.reverse_dataframe(df)
 df = pp.filter_high_steering(df, max_steering)
 df = pp.filter_low_steering(df, min_steering)
+
+if(apply_mapsteering):
+    steeringzero = float(config.load_config('config.ini', 'MAPSTEERINGZERO', 'steeringzero'))
+    threshold = float(config.load_config('config.ini', 'MAPSTEERINGZERO', 'threshold'))
+    df = pop.map_close_steering_to_steering_value(df, threshold, steeringzero)
+
 
 if(apply_unstable or apply_average):
     unstable_range= float(config.load_config('config.ini', 'REPLACEUNSTABLEVALUES', 'range'))

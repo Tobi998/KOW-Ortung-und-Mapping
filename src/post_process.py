@@ -25,6 +25,15 @@ def map_low_radius_to_0(df, threshold):
     
     return df
 
+def map_close_steering_to_steering_value(df, threshold, steeringvalue):
+    """
+    Maps all values in the row steering, which are within a thresshold to steeringvalue
+    to the steeringvalue
+    """
+    mask = (df['steering'] < steeringvalue + threshold) & (df['steering'] > steeringvalue - threshold)
+    df.loc[mask, 'steering'] = steeringvalue
+    return df
+
 
 def map_to_closest_value(df, column_name, value_list):
     """
