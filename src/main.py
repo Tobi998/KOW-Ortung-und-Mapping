@@ -19,7 +19,6 @@ y = ast.literal_eval(config.load_config('config.ini', 'DEFAULT', 'Radius_mm'))
 xy = sorted(zip(x, y))
 x, y = zip(*xy)
 
-print(xy)
 
 
 kind = config.load_config('config.ini', 'DEFAULT', 'interp_kind')
